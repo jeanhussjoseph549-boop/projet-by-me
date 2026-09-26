@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catégorie | Haiti Digital Store</title>
+  <meta name="description" content="Page catégorie de Haiti Digital Store.">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <header class="nav">
+    <a class="logo" href="../index.html">HDS<span>.</span></a>
+    <nav>
+      <a href="../index.html">Accueil</a>
+      <a href="services.html">Services</a>
+      <a href="category.html?category=gaming">Gaming</a>
+      <a href="category.html?category=gift-cards">Gift Cards</a>
+      <a href="category.html?category=entertainment">Entertainment</a>
+      <a href="../index.html#contact">Contact</a>
+    </nav>
+    <button class="hds-btn-cart" type="button" onclick="UI.showCart()">
+      🛒 Panier <span id="hds-cart-count">0</span>
+    </button>
+  </header>
+
+  <main style="padding: 64px 7% 90px;">
+    <section class="section" style="padding: 0;">
+      <div id="hds-products-container"></div>
+      <div id="hds-cart-container" style="display: none;"></div>
+    </section>
+  </main>
+
+  <script src="../data/products-data.js"></script>
+  <script src="../js/cart-system.js"></script>
+  <script src="../js/ui.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const params = new URLSearchParams(window.location.search);
+      const categoryId = params.get('category') || 'gaming';
+      UI.init();
+      UI.showCategory(categoryId);
+    });
+  </script>
+</body>
+</html>
