@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Services | Haiti Digital Store</title>
+  <meta name="description" content="Découvrez les services numériques proposés par Haiti Digital Store.">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+
+  <header class="nav">
+    <a class="logo" href="../index.html">HDS<span>.</span></a>
+
+    <nav>
+      <a href="../index.html">Accueil</a>
+      <a href="services.html">Services</a>
+      <a href="category.html?category=gaming">Gaming</a>
+      <a href="category.html?category=gift-cards">Gift Cards</a>
+      <a href="category.html?category=entertainment">Entertainment</a>
+      <a href="../index.html#contact">Contact</a>
+    </nav>
+
+    <button class="hds-btn-cart" type="button" onclick="UI.showCart()">
+      🛒 Panier <span id="hds-cart-count">0</span>
+    </button>
+  </header>
+
+  <main style="padding:64px 7% 90px;">
+
+    <section class="section" style="padding:0;">
+      <p class="eyebrow">HAITI DIGITAL STORE</p>
+
+      <h1>Nos services</h1>
+
+      <p class="lead">
+        Découvrez nos différentes catégories de services numériques.
+      </p>
+
+      <div id="hds-services-container" class="grid" style="margin-top:40px;"></div>
+
+      <div id="hds-cart-container" style="display:none;"></div>
+    </section>
+
+  </main>
+
+  <script src="../config/site-config.js"></script>
+  <script src="../data/products-data.js"></script>
+  <script src="../js/cart-system.js"></script>
+  <script src="../js/ui.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      UI.init();
+
+      const container = document.getElementById('hds-services-container');
+
+      const categories = ProductsData.getActiveCategories();
+
+      categories.forEach(category => {
+        const article = document.createElement('article');
+
+        article.innerHTML = `
+          <div class="icon">${category.icon || '📦'}</div>
+          <h3>${category.name}</h3>
+          <p>${category.description || ''}</p>
+          <a
+            class="btn primary"
+            href="category.html?category=${category.id}">
+            Voir les produits
+          </a>
+        `;
+
+        container.appendChild(article);
+      });
+    });
+  </script>
+
+</body>
+</html>
