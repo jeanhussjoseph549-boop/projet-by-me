@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://haitidigitalstorev2-dmbm0f5h4-huss15.vercel.app/sitemap.xml a 
