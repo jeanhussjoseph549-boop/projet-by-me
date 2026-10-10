@@ -22,9 +22,13 @@
       <a href="../index.html#contact">Contact</a>
     </nav>
 
-    <button class="hds-btn-cart" type="button" onclick="UI.showCart()">
-      🛒 Panier <span id="hds-cart-count">0</span>
-    </button>
+    <div class="nav-actions">
+
+      <button class="hds-btn-cart" type="button" onclick="UI.showCart()">🛒 Panier <span id="hds-cart-count">0</span></button>
+
+      <button class="hds-menu-btn" type="button" onclick="UI.toggleMenu()" aria-label="Ouvrir le menu">☰</button>
+
+    </div>
   </header>
 
   <main style="padding:64px 7% 90px;">
