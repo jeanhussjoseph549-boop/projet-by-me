@@ -7,6 +7,27 @@ const UI = {
   init() {
     this.updateCartCount();
     this.bindCartEvents();
+    this.bindMenuEvents();
+  },
+
+  toggleMenu() {
+    const nav = document.querySelector('.nav');
+    if (nav) {
+      nav.classList.toggle('menu-open');
+    }
+  },
+
+  closeMenu() {
+    const nav = document.querySelector('.nav');
+    if (nav) {
+      nav.classList.remove('menu-open');
+    }
+  },
+
+  bindMenuEvents() {
+    document.querySelectorAll('.nav nav a').forEach(link => {
+      link.addEventListener('click', () => this.closeMenu());
+    });
   },
 
   updateCartCount() {
