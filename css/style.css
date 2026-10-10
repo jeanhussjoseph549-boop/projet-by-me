@@ -27,3 +27,17 @@ footer{padding:25px 7%;display:flex;justify-content:space-between;border-top:1px
 .hds-btn-cart:hover{background:#f5f6f3;transform:translateY(-1px)}
 @media(max-width:800px){.nav nav{display:none}.hero{grid-template-columns:1fr;padding-top:65px}.hero-card{height:300px}.grid{grid-template-columns:1fr 1fr}.steps{grid-template-columns:1fr}.contact{flex-direction:column}}
 @media(max-width:520px){.grid{grid-template-columns:1fr}.hero h1{letter-spacing:-2px}}
+
+/* ===== Menu mobile ===== */
+.nav-actions{display:flex;gap:10px;align-items:center}
+.hds-menu-btn{display:none;background:transparent;border:1px solid #c9cec9;color:#101312;border-radius:999px;width:42px;height:42px;font-size:20px;line-height:1;cursor:pointer}
+@media(max-width:800px){
+  .hds-menu-btn{display:inline-flex;align-items:center;justify-content:center}
+  .nav.menu-open nav{display:flex;flex-direction:column;gap:0;position:absolute;top:76px;left:0;right:0;background:#f5f6f3;border-bottom:1px solid #ddd;padding:8px 7% 16px;box-shadow:0 12px 24px #0001}
+  .nav.menu-open nav a{padding:14px 0;font-size:16px;border-bottom:1px solid #e2e5e2}
+  .nav.menu-open nav a:last-child{border-bottom:none}
+}
+@media(max-width:520px){
+  .wa,.hds-btn-cart{padding:9px 12px;font-size:13px}
+  .nav-actions{gap:8px}
+}
