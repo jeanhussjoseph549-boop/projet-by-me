@@ -59,6 +59,33 @@ const CartSystem = {
     return { valid: true, value: intQuantity, reason: '' };
   },
 
+  // Retourne la raison pour laquelle une option ne peut pas être commandée.
+  // Chaîne vide = commandable. Règle : produit "available" + fournisseur
+  // confirmé + prix confirmé (nombre supérieur à 0).
+  getBlockReason(product, option) {
+    if (!product) {
+      return 'Produit introuvable.';
+    }
+
+    if (product.status !== 'available') {
+      return 'Ce produit n\'est pas disponible pour le moment.';
+    }
+
+    if (!product.provider || product.provider === 'pending') {
+      return 'Le fournisseur de ce produit n\'est pas encore confirmé.';
+    }
+
+    if (!option) {
+      return 'Option introuvable.';
+    }
+
+    if (typeof option.price !== 'number' || !(option.price > 0)) {
+      return 'Le prix de cette option n\'est pas encore confirmé.';
+    }
+
+    return '';
+  },
+
   addItem(item) {
     if (!item || !item.productId || !item.optionId) {
       return { success: false, message: 'Données manquantes pour ajouter un article.' };
@@ -69,13 +96,14 @@ const CartSystem = {
       return { success: false, message: `Produit introuvable: ${item.productId}` };
     }
 
-    if (product.status !== 'available') {
-      return { success: false, message: 'Ce produit n\'est pas disponible pour le moment.' };
-    }
-
     const option = product.options.find(opt => opt.id === item.optionId);
     if (!option) {
       return { success: false, message: `Option introuvable: ${item.optionId}` };
+    }
+
+    const blockReason = this.getBlockReason(product, option);
+    if (blockReason) {
+      return { success: false, message: blockReason };
     }
 
     const quantityValidation = this.validateQuantity(item.quantity || 1);
@@ -127,7 +155,7 @@ const CartSystem = {
   },
 
   generateWhatsAppMessage(items = null) {
-    const cartItems = items || this.getCart();
+    const cartItems = items || this.getCart().filter(entry => this.validateItem(entry.id).valid);
 
     if (cartItems.length === 0) {
       return 'Bonjour, je souhaite passer une commande sur Haiti Digital Store.';
@@ -174,8 +202,39 @@ const CartSystem = {
   },
 
   openWhatsAppChat(items = null) {
+    // Panier utilisé : on vérifie chaque article avant d'ouvrir WhatsApp.
+    if (!items) {
+      const cart = this.getCart();
+      const problems = [];
+
+      cart.forEach(entry => {
+        const check = this.validateItem(entry.id);
+        if (!check.valid) {
+          const product = ProductsData.getProduct(entry.productId);
+          const name = product ? product.name : 'Article';
+          problems.push(`- ${name} : ${check.reason}`);
+          this.removeItem(entry.id);
+        }
+      });
+
+      if (problems.length > 0) {
+        alert(
+          'Certains articles ne peuvent pas être commandés et ont été retirés du panier :\n\n' +
+          problems.join('\n') +
+          '\n\nVérifiez votre panier puis réessayez.'
+        );
+
+        if (typeof UI !== 'undefined') {
+          UI.updateCartCount();
+          UI.showCart();
+        }
+        return false;
+      }
+    }
+
     const link = this.getWhatsAppLink(items);
     window.open(link, '_blank');
+    return true;
   },
 
   validateItem(itemId) {
@@ -205,6 +264,11 @@ const CartSystem = {
     const option = product.options.find(opt => opt.id === item.optionId);
     if (!option) {
       return { valid: false, reason: 'Option invalide.' };
+    }
+
+    const blockReason = this.getBlockReason(product, option);
+    if (blockReason) {
+      return { valid: false, reason: blockReason };
     }
 
     const quantityValidation = this.validateQuantity(item.quantity);
