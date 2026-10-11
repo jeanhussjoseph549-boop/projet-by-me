@@ -21,10 +21,65 @@ const CartSystem = {
     }
   },
 
+  // Un identifiant est sûr s'il ne contient que lettres, chiffres, _ et -
+  isSafeId(value) {
+    return typeof value === 'string' && /^[A-Za-z0-9_-]{1,100}$/.test(value);
+  },
+
+  // Nettoie un article lu depuis le navigateur. Retourne null s'il est suspect.
+  // Le contenu du localStorage peut être modifié par n'importe qui sur son
+  // propre appareil : on ne lui fait donc jamais confiance.
+  sanitizeCartItem(raw) {
+    if (!raw || typeof raw !== 'object') {
+      return null;
+    }
+
+    if (!this.isSafeId(raw.id) || !this.isSafeId(raw.productId) || !this.isSafeId(raw.optionId)) {
+      return null;
+    }
+
+    if (!Number.isInteger(raw.quantity) ||
+        raw.quantity < this.MIN_QUANTITY ||
+        raw.quantity > this.MAX_QUANTITY) {
+      return null;
+    }
+
+    const customerInfo = {};
+    if (raw.customerInfo && typeof raw.customerInfo === 'object') {
+      Object.keys(raw.customerInfo).forEach(key => {
+        const value = raw.customerInfo[key];
+        const knownType = typeof ProductsData !== 'undefined' &&
+          ProductsData.infoTypes &&
+          Object.prototype.hasOwnProperty.call(ProductsData.infoTypes, key);
+
+        if (knownType && typeof value === 'string') {
+          customerInfo[key] = value.replace(/[\u0000-\u001F\u007F]/g, '').trim().slice(0, 100);
+        }
+      });
+    }
+
+    return {
+      id: raw.id,
+      productId: raw.productId,
+      optionId: raw.optionId,
+      quantity: raw.quantity,
+      customerInfo: customerInfo,
+      addedAt: typeof raw.addedAt === 'string' ? raw.addedAt.slice(0, 40) : '',
+    };
+  },
+
   getCart() {
     try {
-      const cart = localStorage.getItem(this.STORAGE_KEY);
-      return cart ? JSON.parse(cart) : [];
+      const stored = localStorage.getItem(this.STORAGE_KEY);
+      const parsed = stored ? JSON.parse(stored) : [];
+
+      if (!Array.isArray(parsed)) {
+        return [];
+      }
+
+      return parsed
+        .map(item => this.sanitizeCartItem(item))
+        .filter(item => item !== null);
     } catch (error) {
       console.error('Erreur lecture panier:', error);
       return [];
@@ -233,7 +288,7 @@ const CartSystem = {
     }
 
     const link = this.getWhatsAppLink(items);
-    window.open(link, '_blank');
+    window.open(link, '_blank', 'noopener,noreferrer');
     return true;
   },
 
