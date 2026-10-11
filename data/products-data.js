@@ -13,15 +13,15 @@ const ProductsData = {
   categories: [
     {
       id: 'gaming',
-      name: 'Gaming',
+      name: 'Jeux vidéo',
       icon: '🎮',
-      description: 'Top-ups de jeux populaires',
+      description: 'Recharges de jeux populaires',
       order: 1,
       active: true,
     },
     {
       id: 'gift-cards',
-      name: 'Gift Cards',
+      name: 'Cartes cadeaux',
       icon: '🎁',
       description: 'Cartes cadeaux numériques',
       order: 2,
@@ -29,7 +29,7 @@ const ProductsData = {
     },
     {
       id: 'entertainment',
-      name: 'Entertainment',
+      name: 'Divertissement',
       icon: '🎵',
       description: 'Services de divertissement',
       order: 3,
@@ -101,7 +101,7 @@ const ProductsData = {
       id: 'cod-mobile-cp',
       name: 'Call of Duty Mobile CP',
       categoryId: 'gaming',
-      description: 'CP (Call of Points) pour Call of Duty Mobile',
+      description: 'CP (COD Points) pour Call of Duty Mobile',
       icon: '🎮',
       status: 'coming-soon',
       provider: 'pending',
@@ -161,7 +161,7 @@ const ProductsData = {
     // GIFT CARDS CATEGORY
     {
       id: 'google-play',
-      name: 'Google Play Card',
+      name: 'Carte Google Play',
       categoryId: 'gift-cards',
       description: 'Cartes Google Play pour les applications et jeux',
       icon: '🎁',
@@ -177,7 +177,7 @@ const ProductsData = {
     },
     {
       id: 'apple-itunes',
-      name: 'Apple iTunes Card',
+      name: 'Carte Apple iTunes',
       categoryId: 'gift-cards',
       description: 'Cartes Apple pour l\'App Store et iTunes',
       icon: '🎁',
@@ -207,7 +207,7 @@ const ProductsData = {
     },
     {
       id: 'xbox-gift-card',
-      name: 'Xbox Gift Card',
+      name: 'Carte cadeau Xbox',
       categoryId: 'gift-cards',
       description: 'Cartes Xbox pour le Microsoft Store',
       icon: '🎁',
@@ -222,7 +222,7 @@ const ProductsData = {
     },
     {
       id: 'steam-gift-card',
-      name: 'Steam Gift Card',
+      name: 'Carte cadeau Steam',
       categoryId: 'gift-cards',
       description: 'Cartes Steam pour les jeux PC',
       icon: '🎁',
@@ -237,7 +237,7 @@ const ProductsData = {
     },
     {
       id: 'amazon-gift-card',
-      name: 'Amazon Gift Card',
+      name: 'Carte cadeau Amazon',
       categoryId: 'gift-cards',
       description: 'Cartes cadeaux Amazon',
       icon: '🎁',
