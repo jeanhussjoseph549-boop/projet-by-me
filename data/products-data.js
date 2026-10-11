@@ -13,7 +13,7 @@ const ProductsData = {
   categories: [
     {
       id: 'gaming',
-      name: 'Jeux vidéo',
+      name: 'Gaming',
       icon: '🎮',
       description: 'Recharges de jeux populaires',
       order: 1,
@@ -21,7 +21,7 @@ const ProductsData = {
     },
     {
       id: 'gift-cards',
-      name: 'Cartes cadeaux',
+      name: 'Gift Cards',
       icon: '🎁',
       description: 'Cartes cadeaux numériques',
       order: 2,
@@ -29,7 +29,7 @@ const ProductsData = {
     },
     {
       id: 'entertainment',
-      name: 'Divertissement',
+      name: 'Entertainment',
       icon: '🎵',
       description: 'Services de divertissement',
       order: 3,
@@ -37,7 +37,7 @@ const ProductsData = {
     },
     {
       id: 'digital-payments',
-      name: 'Paiements Numériques',
+      name: 'Digital Payments',
       icon: '💳',
       description: 'Services de paiement digital',
       order: 4,
@@ -45,7 +45,7 @@ const ProductsData = {
     },
     {
       id: 'virtual-cards',
-      name: 'Cartes Virtuelles',
+      name: 'Virtual Cards',
       icon: '💳',
       description: 'Cartes virtuelles et services similaires',
       order: 5,
@@ -53,7 +53,7 @@ const ProductsData = {
     },
     {
       id: 'international-orders',
-      name: 'Commandes Internationales',
+      name: 'International Orders',
       icon: '🛍️',
       description: 'Demander une commande sur un site international',
       order: 6,
@@ -161,7 +161,7 @@ const ProductsData = {
     // GIFT CARDS CATEGORY
     {
       id: 'google-play',
-      name: 'Carte Google Play',
+      name: 'Google Play Card',
       categoryId: 'gift-cards',
       description: 'Cartes Google Play pour les applications et jeux',
       icon: '🎁',
@@ -177,7 +177,7 @@ const ProductsData = {
     },
     {
       id: 'apple-itunes',
-      name: 'Carte Apple iTunes',
+      name: 'Apple iTunes Card',
       categoryId: 'gift-cards',
       description: 'Cartes Apple pour l\'App Store et iTunes',
       icon: '🎁',
@@ -207,7 +207,7 @@ const ProductsData = {
     },
     {
       id: 'xbox-gift-card',
-      name: 'Carte cadeau Xbox',
+      name: 'Xbox Gift Card',
       categoryId: 'gift-cards',
       description: 'Cartes Xbox pour le Microsoft Store',
       icon: '🎁',
@@ -222,7 +222,7 @@ const ProductsData = {
     },
     {
       id: 'steam-gift-card',
-      name: 'Carte cadeau Steam',
+      name: 'Steam Gift Card',
       categoryId: 'gift-cards',
       description: 'Cartes Steam pour les jeux PC',
       icon: '🎁',
@@ -237,7 +237,7 @@ const ProductsData = {
     },
     {
       id: 'amazon-gift-card',
-      name: 'Carte cadeau Amazon',
+      name: 'Amazon Gift Card',
       categoryId: 'gift-cards',
       description: 'Cartes cadeaux Amazon',
       icon: '🎁',
