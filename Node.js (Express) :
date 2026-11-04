@@ -1,0 +1,52 @@
+const express = require('express');
+const app = express();
+
+app.use(express.json());
+
+// Fonction pour envoyer l'alerte (à adapter avec votre service mail ou webhook Discord/Telegram)
+function envoyerAlerteSecurite(details) {
+    console.warn("🚨 ALERTE PIRATAGE DÉTECTÉE 🚨", details);
+    
+    // EXEMPLE : Vous pouvez utiliser fetch() ici pour envoyer un message sur un canal Discord/Telegram privé
+    /*
+    fetch('VOTRE_WEBHOOK_DISCORD_OU_TELEGRAM', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ content: `🚨 Tentative de piratage détectée !\nIP: ${details.ip}\nType: ${details.type}\nPayload: ${details.payload}` })
+    });
+    */
+}
+
+// Middleware de surveillance et d'alerte globale
+app.use((req, res, next) => {
+    const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+    const url = req.url;
+    const userAgent = req.headers['user-agent'] || 'Inconnu';
+
+    // Signatures d'attaques courantes (Injections SQL, XSS, Directory Traversal)
+    const patternsMalveillants = [
+        /(\bunion\b.*\bselect\b)/i, // Injection SQL
+        /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/i, // XSS
+        /\.\.\/\.\.\//, // Directory traversal (vol de fichiers système)
+        /(\bexec\b|\bshell\b|\bcmd\b)/i // Tentative d'exécution de commande
+    ];
+
+    const contenuRequete = JSON.stringify(req.body) + url + JSON.stringify(req.query);
+
+    for (let pattern of patternsMalveillants) {
+        if (pattern.test(contenuRequete)) {
+            envoyerAlerteSecurite({
+                type: 'Attaque par Injection ou XSS',
+                ip: ip,
+                url: url,
+                userAgent: userAgent,
+                payload: contenuRequete
+            });
+
+            // Bloquer immédiatement la requête
+            return res.status(403.4).json({ erreur: "Accès refusé. Activité suspecte détectée." });
+        }
+    }
+
+    next();
+});
