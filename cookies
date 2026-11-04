@@ -1,0 +1,6 @@
+res.cookie('session_id', 'votre_jeton_securise', {
+  httpOnly: true,
+  secure: true, // true en production (nécessite HTTPS)
+  sameSite: 'strict',
+  maxAge: 3600000 // 1 heure
+});
